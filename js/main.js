@@ -17,8 +17,7 @@ class Main
             dom: {
                 createContainer: true
             },
-            scene: [Titulo,Game]
-            //scene: [Game]
+            scene: [Titulo,Game,Fim]
         };
     
         this.phaserGame = new Phaser.Game(config);

@@ -7569,7 +7569,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -7579,7 +7579,7 @@
      id="layer1">
     <g
        id="g28287"
-       transform="matrix(-1.6442179,0,0,1.6389755,159.36016,-82.408983)">
+       transform="matrix(1.6442179,0,0,1.6389755,-27.068491,-82.408983)">
       <path
          opacity="0.4"
          fill="#ffffff"
@@ -14001,7 +14001,7 @@
     </g>
     <g
        id="g31036"
-       transform="matrix(-1.6413212,0,0,1.7869967,435.96162,-95.087374)">
+       transform="matrix(1.6413212,0,0,1.7869967,-39.086623,-95.087374)">
       <g
          id="g28497">
         <g

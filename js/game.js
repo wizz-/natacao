@@ -1,9 +1,14 @@
 class Game extends Phaser.Scene 
 {    
+    background = null;
     competidor = "";
     oponente = "";
     competidorSprite = "";
     oponenteSprite = "";
+    preparacao = null;
+    timelinePreparacao = null;
+    animacaoOponente = null;
+
 
     constructor()
     {
@@ -36,6 +41,7 @@ class Game extends Phaser.Scene
         this.criarAmimacoesNadando();
         this.criarOponente();
         this.criarCompetidor();
+        this.criarTextoDePreparacao();
         this.criarAnimacaoDePreparacao();
     }
 
@@ -59,8 +65,8 @@ class Game extends Phaser.Scene
 
     criarBackground()
     {
-        var background = this.add.image(0,0,"background");
-        background.setOrigin(0,0);
+        this.background = this.add.image(0,0,"background");
+        this.background.setOrigin(0,0);
     }
 
     criarTorcedora1()
@@ -134,110 +140,107 @@ class Game extends Phaser.Scene
 
     criarOponente()
     {
-        this.oponenteSprite = this.add.sprite(1800,150,this.oponente);
+        this.oponenteSprite = this.add.sprite(-400,150,this.oponente);
         this.oponenteSprite.setOrigin(0,0);
     }
 
     criarCompetidor()
     {
-        this.competidorSprite = this.add.sprite(1800,450,this.competidor);
+        this.competidorSprite = this.add.sprite(-400,450,this.competidor);
         this.competidorSprite.setOrigin(0,0);
     }
 
-    criarAnimacaoDePreparacao()
+    criarTextoDePreparacao()
     {
-        var preparacao = this.add.text(
+        this.preparacao = this.add.text(
             650, 5, 
             'EM SUAS MARCAS', 
             { font: "50px Arial Black", fill: "#ffff00", align: 'center'}
         );
-        preparacao.setStroke('#666', 5);
-        preparacao.setAlpha(0);
 
+        this.preparacao.x = (1920 - this.preparacao.width) / 2;
+        this.preparacao.setStroke('#666', 5);
+        this.preparacao.setAlpha(0);
+    }
+
+    criarAnimacaoDePreparacao()
+    {
+        var _this = this;
         var animacao = this.tweens.createTimeline();
 
-        animacao.add({
-            targets: preparacao,
+        this.addFadeInFadeOutNaTimeline(animacao, this.preparacao, function(){
+            _this.preparacao.text = "PREPARAR";
+            _this.preparacao.x = (1920 - _this.preparacao.width) / 2; 
+        });
+
+        this.addFadeInFadeOutNaTimeline(animacao, this.preparacao, function(){
+            _this.preparacao.text = "COMEÇAR!!!"
+            _this.preparacao.x = (1920 - _this.preparacao.width) / 2;
+        });
+
+        this.addFadeInFadeOutNaTimeline(animacao, this.preparacao, function(){
+            _this.iniciarCorrida();
+        });
+
+        animacao.play();
+    }
+
+    addFadeInFadeOutNaTimeline(timeline, objeto, callback)
+    {
+        timeline.add({
+            targets: objeto,
             alpha: 1,
             duration: 500,
             repeat: 0,
             delay: 200
         });        
 
-        animacao.add({
-            targets: preparacao,
+        timeline.add({
+            targets: objeto,
             alpha: 0,
             duration: 500,
             repeat: 0,
             delay: 200
             ,onComplete: function(){ 
-                preparacao.text = "PREPARAR" 
+                callback();
             }
         });
-
-        animacao.add({
-            targets: preparacao,
-            alpha: 1,
-            duration: 500,
-            repeat: 0,
-            delay: 200
-        });  
-
-        animacao.add({
-            targets: preparacao,
-            alpha: 0,
-            duration: 500,
-            repeat: 0,
-            delay: 200
-            ,onComplete: function(){ 
-                preparacao.text = "COMEÇAR!!!"                 
-            }
-        });
-
-        animacao.add({
-            targets: preparacao,
-            alpha: 1,
-            duration: 500,
-            repeat: 0,
-            delay: 200
-        });  
-
-        animacao.add({
-            targets: preparacao,
-            alpha: 0,
-            duration: 500,
-            repeat: 0,
-            delay: 200
-            ,onComplete: function(){ 
-                this.iniciarCorrida();                 
-            }.bind(this)
-        });
-
-        animacao.play();
     }
 
     iniciarCorrida()
     {
         var _this = this;
 
-        this.competidorSprite.setInteractive({ useHandCursor: true });
-        this.competidorSprite.on('pointerdown', function()
+        this.background.setInteractive({ useHandCursor: true });
+        this.background.on('pointerdown', function()
         {
-            this.x -= 80;
-            this.play(_this.competidor + "Bracada");
+            _this.competidorSprite.x += 80;
+            _this.competidorSprite.play(_this.competidor + "Bracada");
+            
+            if(_this.competidorSprite.x >= 1920)
+            {
+                _this.animacaoOponente.stop();
+                _this.oponenteSprite.play(_this.oponente + "Parado");
+                _this.background.removeInteractive();
+                _this.scene.start("Fim",{ quemGanhou: _this.competidor });
+            }
+
         });
 
-        this.competidorSprite.on('pointerup', function()
+        this.background.on('pointerup', function()
         {
-            this.play(_this.competidor + "Parado");
+            _this.competidorSprite.play(_this.competidor + "Parado");
         });
 
-        this.tweens.add({
+        this.animacaoOponente = this.tweens.add({
             targets: this.oponenteSprite
-            ,x: -500
-            ,duration: 5000
+            ,x: 2000
+            ,duration: 9000
             ,onStart: function(){ this.oponenteSprite.play(this.oponente + "Nadando"); }.bind(this)
-            ,onComplete: function(){ console.log("acabou"); }
+            ,onComplete: function(){ 
+                _this.background.removeInteractive();
+                _this.scene.start("Fim",{ quemGanhou: _this.oponente });
+            }
         });
     }
 }

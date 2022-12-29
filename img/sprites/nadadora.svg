@@ -19339,7 +19339,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -19349,7 +19349,7 @@
      id="layer1">
     <g
        id="g35233"
-       transform="matrix(-1.6130353,0,0,1.5197048,153.11653,-228.10064)">
+       transform="matrix(1.6130353,0,0,1.5197048,-20.824872,-228.10064)">
       <path
          opacity="0.4"
          fill="#ffffff"
@@ -19856,7 +19856,7 @@
              style="fill:url(#SVGID_343_)" />
           <polygon
              fill="#be1d73"
-             points="52.505,164.876 52.505,164.875 52.505,164.878 "
+             points="52.505,164.875 52.505,164.878 52.505,164.876 "
              id="polygon31242" />
           <path
              fill="#be1d73"
@@ -30155,7 +30155,7 @@
     </g>
     <g
        id="g64990"
-       transform="matrix(-1.6130337,0,0,1.7889891,437.87052,-280.49158)">
+       transform="matrix(1.6130337,0,0,1.7889891,-40.995508,-280.49158)">
       <g
          id="g25662">
         <radialGradient
@@ -30535,7 +30535,7 @@
                style="fill:url(#SVGID_571_)" />
             <polygon
                fill="#be1d73"
-               points="147.024,167.425 147.024,167.428 147.024,167.426 "
+               points="147.024,167.428 147.024,167.426 147.024,167.425 "
                id="polygon35284" />
             <path
                fill="#be1d73"
