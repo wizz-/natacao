@@ -218,10 +218,18 @@ class Game extends Phaser.Scene
 
     iniciarCorrida()
     {
+        var _this = this;
+
         this.competidorSprite.setInteractive({ useHandCursor: true });
         this.competidorSprite.on('pointerdown', function()
         {
             this.x -= 80;
+            this.play(_this.competidor + "Bracada");
+        });
+
+        this.competidorSprite.on('pointerup', function()
+        {
+            this.play(_this.competidor + "Parado");
         });
 
         this.tweens.add({
